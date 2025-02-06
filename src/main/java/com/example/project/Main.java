@@ -232,26 +232,25 @@ public class Main{
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == val) {
                 if (i == 0) {
-                    if (list.get(i) > list.get(i + 1)) {
-                        
-                    }
                     if (list.get(i) < list.get(i + 1)) {
                         list.set(i, list.get(i + 1));
                     }
-                    
                 } else if (i == list.size() - 1) {
-                    if (i != i - 1) {
-
-                    }
-                    list.set(i, list.get(list.size() - 2));
-                } else {
-                    if (list.get(i - 1) >= list.get(i + 1)) {
+                    if (list.get(i) < list.get(i - 1)) {
                         list.set(i, list.get(i - 1));
-                    } else {
-                        list.set(i, list.get(i + 1));
                     }
+                } else {
+                    int large = list.get(i);
+                    int left = list.get(i - 1);
+                    int right = list.get(i + 1);
+                    if (right > large) {
+                        large = right;
+                    }
+                    if (left > large) {
+                        large = left;
+                    }
+                    list.set(i, large);
                 }
-                
             }
         }
         return list;
@@ -266,6 +265,9 @@ public class Main{
     // shiftLeft([1]) → [1]
 
     public static ArrayList<Integer> shiftLeft(ArrayList<Integer> list){
+        int temp = list.get(0);
+        list.remove(0);
+        list.add(temp);
         return list;
     }
     
@@ -279,7 +281,20 @@ public class Main{
     // fix34([1, 3, 1, 4, 4, 3, 1]) → [1, 3, 4, 1, 1, 3, 4]
     // fix34([3, 2, 2, 4]) → [3, 4, 2, 2]
 
-    public static ArrayList<Integer> fix34(ArrayList<Integer> list){
+    public static ArrayList<Integer> fix34(ArrayList<Integer> list) {
+        ArrayList<Integer> temp = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == 3) {
+                temp.add(i);
+            }
+        }
+        for (int j = 1; j < list.size(); j++) {
+            if (list.get(j) == 4 && list.get(j - 1) != 3) {
+                list.remove(j);
+                list.add(temp.get(0) + 1, 4);
+                temp.remove(0);
+            }
+        }
         return list;
     }
 
@@ -310,6 +325,22 @@ public class Main{
    *  @param numList  numList of ints
    */
     public static ArrayList<Integer> modes(int[] numList){
+        ArrayList<Integer> list = new ArrayList<>();
+        int count = 1;
+        for (int i = 0; i < numList.length; i++) {
+            list.add(numList[i]);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = i + 1; j < list.size(); j++) {
+                if (list.get(i) == list.get(j)) {
+                    count++;
+                }
+            }
+            if (count == 1) {
+                list.remove(list.get(i));
+                i--;
+            }
+        }
         return new ArrayList<Integer>();
     }
 }
