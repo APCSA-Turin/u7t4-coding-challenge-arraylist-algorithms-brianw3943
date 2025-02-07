@@ -325,22 +325,57 @@ public class Main{
    *  @param numList  numList of ints
    */
     public static ArrayList<Integer> modes(int[] numList){
-        ArrayList<Integer> list = new ArrayList<>();
-        int count = 1;
-        for (int i = 0; i < numList.length; i++) {
-            list.add(numList[i]);
+        ArrayList<Integer> numList2 = new ArrayList<>();
+        for (int integer : numList) {
+            numList2.add(integer);
         }
+        ArrayList<Integer> modeList = new ArrayList<>();
+        for (int integer : numList) {
+            modeList.add(integer);
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int integer : numList) {
+            list.add(integer);
+        }
+        int num = 0;
+        int count = 0;
         for (int i = 0; i < list.size(); i++) {
-            for (int j = i + 1; j < list.size(); j++) {
-                if (list.get(i) == list.get(j)) {
-                    count++;
+            int currentNum = list.get(i);
+            int currentCount = 1;
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j) == currentNum) {
+                    currentCount++;
                 }
             }
-            if (count == 1) {
-                list.remove(list.get(i));
-                i--;
+            if (currentCount > count) {
+                num = currentNum;
+                count = currentCount;
+                modeList.clear();
+                modeList.add(num);
+            } else if (currentCount == count) {
+                boolean onList = false;
+                for (int j = 0; j < modeList.size(); j++) {
+                    if (modeList.get(j) == currentNum) {
+                        onList = true;
+                    }
+                }
+                if (onList == false) {
+                    modeList.add(currentNum);
+                }
             }
         }
-        return new ArrayList<Integer>();
+        removeDuplicates(numList2);
+        int count2 = 0;
+        if (numList2.size() == modeList.size()) {
+            for (int i = 0; i < numList2.size(); i++) {
+                if (numList2.get(i) == modeList.get(i)) {
+                    count2++;
+                }
+            }
+            if (count2 == numList2.size()) {
+                modeList.clear();
+            }
+        }
+        return modeList;
     }
 }
