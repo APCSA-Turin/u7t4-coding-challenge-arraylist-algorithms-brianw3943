@@ -282,17 +282,23 @@ public class Main{
     // fix34([3, 2, 2, 4]) → [3, 4, 2, 2]
 
     public static ArrayList<Integer> fix34(ArrayList<Integer> list) {
-        ArrayList<Integer> temp = new ArrayList<>();
+        int four = 0;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == 3) {
-                temp.add(i);
-            }
-        }
-        for (int j = 1; j < list.size(); j++) {
-            if (list.get(j) == 4 && list.get(j - 1) != 3) {
-                list.remove(j);
-                list.add(temp.get(0) + 1, 4);
-                temp.remove(0);
+                
+                for (int j = four + 1; j < list.size(); j++) {
+                    if (list.get(i + 1) == 4) {
+
+                    } else {
+                        if (list.get(j) == 4) {
+                            four = j;
+                            int temp = list.get(i + 1);
+                            list.set(i + 1, list.get(j));
+                            list.set(j, temp);
+                            break;
+                        }
+                    }
+                }
             }
         }
         return list;
